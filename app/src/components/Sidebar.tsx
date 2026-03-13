@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { allCompanies, getCompany } from '@/lib/companies';
 import { getTrack } from '@/lib/tracks';
+import { useProgress } from '@/lib/progress';
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -19,6 +20,8 @@ export default function Sidebar() {
 
   const company = companyId ? getCompany(companyId) : null;
   const role = company && roleId ? company.roles.find((r) => r.id === roleId) : null;
+  const { getRoleProgress } = useProgress();
+  const roleProgress = role && company ? getRoleProgress(company.id, role.id, role.trackRefs.map((r) => r.trackId)) : 0;
 
   return (
     <>
@@ -89,6 +92,22 @@ export default function Sidebar() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
             </svg>
             {!collapsed && <span>Home</span>}
+          </Link>
+
+          {/* Fundamentals */}
+          <Link
+            href="/fundamentals"
+            onClick={() => setMobileOpen(false)}
+            className={`mx-2 mb-1 flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all ${
+              pathname.startsWith('/fundamentals')
+                ? 'bg-accent-blue/10 text-accent-blue'
+                : 'text-text-muted hover:bg-[#1a1a1a] hover:text-text-secondary'
+            }`}
+          >
+            <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+            {!collapsed && <span>Fundamentals</span>}
           </Link>
 
           <div className="mx-4 my-3 border-t border-card-border" />
@@ -186,11 +205,18 @@ export default function Sidebar() {
               <div className="mb-1 text-xs font-medium text-text-secondary">
                 {role ? role.title : 'Career Platform'}
               </div>
-              <div className="text-[10px] text-text-muted">
-                {role
-                  ? `${role.trackRefs.length} tracks · ${role.duration}`
-                  : `${allCompanies.length} companies · ${allCompanies.reduce((s, c) => s + c.roles.length, 0)} roles`}
-              </div>
+              {role ? (
+                <>
+                  <div className="progress-bar mb-1">
+                    <div className="progress-bar-fill bg-accent-teal" style={{ width: `${roleProgress}%` }} />
+                  </div>
+                  <div className="text-[10px] text-text-muted">{roleProgress}% complete</div>
+                </>
+              ) : (
+                <div className="text-[10px] text-text-muted">
+                  {allCompanies.length} companies · {allCompanies.reduce((s, c) => s + c.roles.length, 0)} roles
+                </div>
+              )}
             </div>
           </div>
         )}

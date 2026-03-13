@@ -7,6 +7,7 @@ import Link from 'next/link';
 import ConceptBlock from '@/components/ConceptBlock';
 import { MiniExerciseCard, MainExerciseCard } from '@/components/ExerciseCard';
 import LessonNav from '@/components/LessonNav';
+import { useProgress, lessonKey } from '@/lib/progress';
 
 export default function CompanyLessonPage() {
   const params = useParams();
@@ -50,6 +51,9 @@ export default function CompanyLessonPage() {
   const prevLesson = currentIndex > 0 ? allLessons[currentIndex - 1] : null;
   const nextLesson = currentIndex < allLessons.length - 1 ? allLessons[currentIndex + 1] : null;
 
+  const { markComplete, markIncomplete, isComplete } = useProgress();
+  const key = lessonKey(companyId, roleId, trackId, lessonId);
+  const completed = isComplete(key);
   const basePath = `/company/${company.id}/role/${role.id}/track/${track.id}`;
 
   return (
@@ -245,6 +249,34 @@ export default function CompanyLessonPage() {
             <p className="leading-relaxed text-text-secondary">{lesson.whyItMatters}</p>
           </section>
         )}
+
+        {/* Mark Complete */}
+        <div className="mb-8 flex justify-center">
+          <button
+            onClick={() => completed ? markIncomplete(key) : markComplete(key)}
+            className={`flex items-center gap-2 rounded-xl border px-6 py-3 text-sm font-medium transition-all ${
+              completed
+                ? 'border-accent-teal/30 bg-accent-teal/10 text-accent-teal'
+                : 'border-card-border bg-card-bg text-text-secondary hover:border-accent-teal/30 hover:bg-accent-teal/5 hover:text-accent-teal'
+            }`}
+          >
+            {completed ? (
+              <>
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                </svg>
+                Completed
+              </>
+            ) : (
+              <>
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                Mark as Complete
+              </>
+            )}
+          </button>
+        </div>
 
         {/* Lesson Navigation */}
         <LessonNav

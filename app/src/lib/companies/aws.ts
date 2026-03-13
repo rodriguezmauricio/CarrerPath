@@ -15,6 +15,7 @@ export const aws: Company = {
       icon: '🛠️',
       description: 'Provide expert technical support for AWS services, troubleshoot complex cloud infrastructure issues, and help customers optimize their AWS deployments for cost and performance.',
       duration: '24 months',
+      prerequisites: ['python', 'bash', 'git', 'sql'],
       phases: [
         {
           phase: 1,
@@ -66,6 +67,7 @@ export const aws: Company = {
       icon: '🏗️',
       description: 'Design resilient, cost-optimized cloud architectures on AWS. Guide enterprises through migrations, multi-account strategies, and Well-Architected Framework reviews.',
       duration: '24 months',
+      prerequisites: ['python', 'bash', 'git', 'sql'],
       phases: [
         {
           phase: 1,
@@ -117,6 +119,7 @@ export const aws: Company = {
       icon: '🤝',
       description: 'Be the trusted technical advisor for AWS Enterprise Support customers. Proactively guide architecture decisions, coordinate incident response, and drive cloud adoption best practices.',
       duration: '24 months',
+      prerequisites: ['python', 'bash', 'git'],
       phases: [
         {
           phase: 1,

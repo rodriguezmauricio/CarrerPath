@@ -15,6 +15,7 @@ export const openai: Company = {
       icon: '🛠️',
       description: 'Help developers integrate GPT models, troubleshoot API issues, and ensure smooth adoption of OpenAI\'s platform across diverse use cases.',
       duration: '24 months',
+      prerequisites: ['python', 'bash', 'git', 'sql'],
       phases: [
         {
           phase: 1,
@@ -66,6 +67,7 @@ export const openai: Company = {
       icon: '🏗️',
       description: 'Design enterprise AI architectures using GPT models, guide customers on fine-tuning strategies, and build reference implementations for complex use cases.',
       duration: '24 months',
+      prerequisites: ['python', 'javascript', 'bash', 'git', 'sql'],
       phases: [
         {
           phase: 1,
@@ -117,6 +119,7 @@ export const openai: Company = {
       icon: '📢',
       description: 'Grow the OpenAI developer ecosystem through technical content, community engagement, and developer tooling that makes building with GPT models accessible to all.',
       duration: '24 months',
+      prerequisites: ['python', 'javascript', 'bash', 'git'],
       phases: [
         {
           phase: 1,

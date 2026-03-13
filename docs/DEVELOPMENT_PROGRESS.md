@@ -100,10 +100,34 @@
 - TypeScript compiles clean
 
 ### Step 8: Content Reuse Strategy & Tagging
-- **Status**: NOT STARTED
+- **Status**: SKIPPED
+- Decided to create role-specific content later rather than shared track overrides
+- Current shared tracks serve as MVP; will be replaced with tailored versions per company/role
 
 ### Step 9: localStorage Progress Tracking
-- **Status**: NOT STARTED
+- **Status**: DONE
+- **Date**: 2026-03-13
+- Created `src/lib/progress.ts` with `useProgress()` hook
+- localStorage persistence under `career-platform-progress` key
+- Methods: `markComplete`, `markIncomplete`, `isComplete`, `getTrackProgress`, `getRoleProgress`
+- Updated `TrackCard` to show real progress (accepts `companyId`/`roleId` props)
+- Added "Mark as Complete" toggle button on lesson pages
+- Sidebar footer shows real progress bar within role context
+- Role page uses `TrackCard` component with progress tracking
 
 ### Step 10: Polish & Enhancements
-- **Status**: NOT STARTED
+- **Status**: DONE
+- **Date**: 2026-03-13
+- Responsive design maintained across all new pages
+- Context-aware sidebar with progress tracking
+
+### Bonus: Fundamentals Courses & Prerequisites
+- **Status**: DONE
+- **Date**: 2026-03-13
+- Added `FundamentalsCourse` type and `prerequisites` field to `Role` type
+- Created 5 fundamentals courses: Python, JavaScript, SQL, Bash, Git
+- Each course has metadata + topic outlines (full lessons TBD)
+- New routes: `/fundamentals` (browse all) and `/fundamentals/[courseId]` (course detail)
+- Prerequisites banner on role pages with clickable links to fundamentals courses
+- Added Fundamentals link to Sidebar navigation
+- All company role definitions updated with appropriate prerequisites

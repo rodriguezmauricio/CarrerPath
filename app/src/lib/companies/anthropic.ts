@@ -15,6 +15,7 @@ export const anthropic: Company = {
       icon: '🛠️',
       description: 'Provide expert technical support for Claude API users, debug complex integration issues, and help customers build reliable AI-powered applications.',
       duration: '24 months',
+      prerequisites: ['python', 'bash', 'git', 'sql'],
       phases: [
         {
           phase: 1,
@@ -65,6 +66,7 @@ export const anthropic: Company = {
       icon: '🏗️',
       description: 'Design and architect enterprise-scale AI solutions using Claude, guide technical decision-making, and bridge the gap between customer needs and Anthropic\'s capabilities.',
       duration: '24 months',
+      prerequisites: ['python', 'javascript', 'bash', 'git', 'sql'],
       phases: [
         {
           phase: 1,
@@ -115,6 +117,7 @@ export const anthropic: Company = {
       icon: '📢',
       description: 'Champion the developer experience for Claude, create technical content, build sample applications, and represent Anthropic at conferences and in the developer community.',
       duration: '24 months',
+      prerequisites: ['python', 'javascript', 'bash', 'git'],
       phases: [
         {
           phase: 1,

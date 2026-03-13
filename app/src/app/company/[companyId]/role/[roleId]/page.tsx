@@ -1,7 +1,9 @@
 import { allCompanies, getCompany } from '@/lib/companies';
 import { getTrack } from '@/lib/tracks';
+import { getFundamentals } from '@/lib/fundamentals';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import TrackCard from '@/components/TrackCard';
 
 export function generateStaticParams() {
   return allCompanies.flatMap((c) =>
@@ -78,6 +80,42 @@ export default async function RolePage({
         </div>
       </section>
 
+      {/* Prerequisites Banner */}
+      {role.prerequisites && role.prerequisites.length > 0 && (
+        <section className="mx-auto max-w-5xl px-6 pt-12 lg:px-8">
+          <div className="rounded-xl border border-accent-blue/20 bg-accent-blue/5 p-6">
+            <div className="mb-3 flex items-center gap-2">
+              <svg className="h-5 w-5 text-accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-accent-blue">Prerequisites</h3>
+            </div>
+            <p className="mb-4 text-sm text-text-secondary">
+              Before you start, make sure you&apos;re comfortable with these fundamentals. New to any of them? Click to take the course.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {role.prerequisites.map((prereqId) => {
+                const course = getFundamentals(prereqId);
+                if (!course) return null;
+                return (
+                  <Link
+                    key={course.id}
+                    href={`/fundamentals/${course.id}`}
+                    className="inline-flex items-center gap-2 rounded-lg border border-card-border bg-card-bg px-3 py-2 text-sm transition-all hover:border-accent-blue/30 hover:bg-accent-blue/5"
+                  >
+                    <span>{course.icon}</span>
+                    <span className="text-text-primary">{course.title}</span>
+                    <svg className="h-3.5 w-3.5 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Phases */}
       <section className="mx-auto max-w-5xl px-6 py-12 lg:px-8">
         <div className="mb-8">
@@ -133,46 +171,15 @@ export default async function RolePage({
           {role.trackRefs.map((ref, idx) => {
             const track = getTrack(ref.trackId);
             if (!track) return null;
-
-            const totalLessons = track.chapters.reduce((sum, ch) => sum + ch.lessons.length, 0);
-            const totalDuration = track.chapters.reduce(
-              (sum, ch) => sum + ch.lessons.reduce((s, l) => s + l.duration, 0),
-              0
-            );
-            const hours = Math.round(totalDuration / 60);
-
             return (
-              <Link
+              <TrackCard
                 key={track.id}
+                track={track}
+                index={idx}
+                companyId={company.id}
+                roleId={role.id}
                 href={`/company/${company.id}/role/${role.id}/track/${track.id}`}
-                className="group block"
-              >
-                <div
-                  className="relative h-full overflow-hidden rounded-xl border border-card-border bg-card-bg p-6 transition-all duration-300 hover:border-[#333] hover:bg-[#1a1a1a]"
-                  style={{ borderTopColor: track.color, borderTopWidth: '2px' }}
-                >
-                  <div className="absolute right-4 top-4 text-xs font-mono text-text-muted">
-                    {String(idx + 1).padStart(2, '0')}
-                  </div>
-                  <div
-                    className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl text-2xl"
-                    style={{ backgroundColor: track.color + '15' }}
-                  >
-                    {track.icon}
-                  </div>
-                  <h3 className="mb-1 text-base font-semibold text-text-primary group-hover:text-white transition-colors">
-                    {track.title}
-                  </h3>
-                  <p className="mb-4 text-sm leading-relaxed text-text-muted line-clamp-2">
-                    {track.subtitle}
-                  </p>
-                  <div className="flex items-center gap-4 text-xs text-text-muted">
-                    <span>{track.chapters.length} chapters</span>
-                    <span>{totalLessons} lessons</span>
-                    {hours > 0 && <span>{hours}h</span>}
-                  </div>
-                </div>
-              </Link>
+              />
             );
           })}
         </div>

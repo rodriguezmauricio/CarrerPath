@@ -15,6 +15,7 @@ export const stripe: Company = {
       icon: '🛠️',
       description: 'Help developers integrate Stripe\'s payment APIs, debug webhook issues, and ensure seamless checkout experiences for businesses worldwide.',
       duration: '24 months',
+      prerequisites: ['python', 'javascript', 'bash', 'git', 'sql'],
       phases: [
         {
           phase: 1,
@@ -66,6 +67,7 @@ export const stripe: Company = {
       icon: '🏗️',
       description: 'Design complex payment architectures using Stripe Connect, Billing, and Treasury. Guide enterprises through PCI compliance, multi-currency setups, and marketplace payment flows.',
       duration: '24 months',
+      prerequisites: ['python', 'javascript', 'bash', 'git', 'sql'],
       phases: [
         {
           phase: 1,
@@ -117,6 +119,7 @@ export const stripe: Company = {
       icon: '🔌',
       description: 'Build and maintain Stripe\'s client libraries, SDKs, and integration tools. Ensure developers across every language and framework can integrate payments seamlessly.',
       duration: '24 months',
+      prerequisites: ['python', 'javascript', 'bash', 'git'],
       phases: [
         {
           phase: 1,

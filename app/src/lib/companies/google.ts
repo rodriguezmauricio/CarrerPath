@@ -15,6 +15,7 @@ export const google: Company = {
       icon: '🛠️',
       description: 'Provide expert technical support for Google Cloud products, debug infrastructure issues, and help customers optimize their cloud deployments.',
       duration: '24 months',
+      prerequisites: ['python', 'bash', 'git', 'sql'],
       phases: [
         {
           phase: 1,
@@ -66,6 +67,7 @@ export const google: Company = {
       icon: '☁️',
       description: 'Design and implement cloud architectures on GCP, guide enterprise migrations, and build reference architectures using Vertex AI, BigQuery, and Google Kubernetes Engine.',
       duration: '24 months',
+      prerequisites: ['python', 'bash', 'git', 'sql'],
       phases: [
         {
           phase: 1,
@@ -117,6 +119,7 @@ export const google: Company = {
       icon: '🤝',
       description: 'Build and nurture Google\'s developer community, create technical content and sample apps for Google Cloud and AI products, and represent Google at developer events worldwide.',
       duration: '24 months',
+      prerequisites: ['python', 'javascript', 'bash', 'git'],
       phases: [
         {
           phase: 1,

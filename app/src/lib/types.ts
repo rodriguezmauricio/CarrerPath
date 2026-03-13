@@ -142,6 +142,16 @@ export interface Role {
   duration: string;
   phases: Phase[];
   trackRefs: TrackRef[];
+  prerequisites?: string[];
+}
+
+export interface FundamentalsCourse {
+  id: string;
+  title: string;
+  icon: string;
+  color: string;
+  description: string;
+  topics: string[];
 }
 
 export interface Company {

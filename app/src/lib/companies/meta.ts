@@ -15,6 +15,7 @@ export const meta: Company = {
       icon: '🛠️',
       description: 'Provide technical support for Meta\'s developer platform, including Graph API, WhatsApp Business API, and Meta\'s advertising tools.',
       duration: '24 months',
+      prerequisites: ['python', 'bash', 'git', 'sql'],
       phases: [
         {
           phase: 1,
@@ -66,6 +67,7 @@ export const meta: Company = {
       icon: '⚙️',
       description: 'Ensure the reliability and performance of Meta\'s infrastructure at billion-user scale. Combine software engineering with systems expertise to keep the world connected.',
       duration: '24 months',
+      prerequisites: ['python', 'bash', 'git', 'sql'],
       phases: [
         {
           phase: 1,
@@ -117,6 +119,7 @@ export const meta: Company = {
       icon: '📢',
       description: 'Grow Meta\'s developer ecosystem around open-source AI (LLaMA), React, PyTorch, and Meta\'s platform APIs through content, community building, and developer tooling.',
       duration: '24 months',
+      prerequisites: ['python', 'javascript', 'bash', 'git'],
       phases: [
         {
           phase: 1,
