@@ -91,7 +91,13 @@
 - TypeScript compiles clean
 
 ### Step 7: New Landing Page
-- **Status**: NOT STARTED
+- **Status**: DONE
+- **Date**: 2026-03-13
+- Replaced Anthropic-only dashboard with multi-company landing page
+- Hero: "Find Your Career Path in Tech" with dynamic stats (6 companies, 18 roles, 16 tracks, N lessons)
+- Company card grid using CompanyCard component
+- Popular Paths section showing primary role per company
+- TypeScript compiles clean
 
 ### Step 8: Content Reuse Strategy & Tagging
 - **Status**: NOT STARTED
