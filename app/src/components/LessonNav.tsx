@@ -4,14 +4,16 @@ interface LessonNavProps {
   trackId: string;
   prevLesson?: { id: string; title: string } | null;
   nextLesson?: { id: string; title: string } | null;
+  basePath?: string;
 }
 
-export default function LessonNav({ trackId, prevLesson, nextLesson }: LessonNavProps) {
+export default function LessonNav({ trackId, prevLesson, nextLesson, basePath }: LessonNavProps) {
+  const trackPath = basePath || `/track/${trackId}`;
   return (
     <div className="mt-12 flex items-stretch gap-4 border-t border-card-border pt-8">
       {prevLesson ? (
         <Link
-          href={`/track/${trackId}/lesson/${prevLesson.id}`}
+          href={`${trackPath}/lesson/${prevLesson.id}`}
           className="group flex flex-1 flex-col rounded-xl border border-card-border bg-card-bg p-4 transition-all hover:border-[#444] hover:bg-[#1a1a1a]"
         >
           <span className="mb-1 flex items-center gap-1 text-xs text-text-muted">
@@ -29,7 +31,7 @@ export default function LessonNav({ trackId, prevLesson, nextLesson }: LessonNav
       )}
 
       <Link
-        href={`/track/${trackId}`}
+        href={trackPath}
         className="flex items-center justify-center rounded-xl border border-card-border bg-card-bg px-4 transition-all hover:border-[#444] hover:bg-[#1a1a1a]"
       >
         <svg className="h-4 w-4 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -39,7 +41,7 @@ export default function LessonNav({ trackId, prevLesson, nextLesson }: LessonNav
 
       {nextLesson ? (
         <Link
-          href={`/track/${trackId}/lesson/${nextLesson.id}`}
+          href={`${trackPath}/lesson/${nextLesson.id}`}
           className="group flex flex-1 flex-col items-end rounded-xl border border-card-border bg-card-bg p-4 transition-all hover:border-[#444] hover:bg-[#1a1a1a]"
         >
           <span className="mb-1 flex items-center gap-1 text-xs text-text-muted">

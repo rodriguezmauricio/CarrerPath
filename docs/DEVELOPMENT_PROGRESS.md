@@ -64,7 +64,23 @@
 - TypeScript compiles clean
 
 ### Step 5: New Routing Structure
-- **Status**: NOT STARTED
+- **Status**: DONE
+- **Date**: 2026-03-13
+- Created nested route structure under `/company/[companyId]/role/[roleId]/track/[trackId]/lesson/[lessonId]`
+- All pages have full breadcrumb navigation (Home > Company > Role > Track > Lesson)
+- Old `/track/[trackId]` routes kept for standalone browsing
+- Updated `LessonNav` to accept optional `basePath` prop for context-aware navigation
+- `generateStaticParams` on server pages for static generation
+- TypeScript compiles clean
+
+**Files created:**
+- `src/app/company/[companyId]/page.tsx` — Company detail with role cards
+- `src/app/company/[companyId]/role/[roleId]/page.tsx` — Role curriculum (phases + track grid)
+- `src/app/company/[companyId]/role/[roleId]/track/[trackId]/page.tsx` — Track detail with chapter/lesson list
+- `src/app/company/[companyId]/role/[roleId]/track/[trackId]/lesson/[lessonId]/page.tsx` — Full lesson view
+
+**Files modified:**
+- `src/components/LessonNav.tsx` — Added `basePath` prop
 
 ### Step 6: New Components
 - **Status**: NOT STARTED
