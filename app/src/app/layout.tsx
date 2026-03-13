@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Anthropic Support Academy",
-  description: "Anthropic Product Support Specialist -- Career Development Platform",
+  title: "CareerPath — Tech Career Learning Platform",
+  description: "Multi-company career development platform with tailored learning paths for Anthropic, OpenAI, Google, Meta, Stripe, and AWS.",
 };
 
 export default function RootLayout({

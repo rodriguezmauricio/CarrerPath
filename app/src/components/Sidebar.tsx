@@ -3,12 +3,22 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { curriculum } from '@/lib/curriculum';
+import { allCompanies, getCompany } from '@/lib/companies';
+import { getTrack } from '@/lib/tracks';
 
 export default function Sidebar() {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  // Parse context from URL
+  const segments = pathname.split('/').filter(Boolean);
+  const isCompanyRoute = segments[0] === 'company';
+  const companyId = isCompanyRoute ? segments[1] : null;
+  const roleId = isCompanyRoute && segments[2] === 'role' ? segments[3] : null;
+
+  const company = companyId ? getCompany(companyId) : null;
+  const role = company && roleId ? company.roles.find((r) => r.id === roleId) : null;
 
   return (
     <>
@@ -45,11 +55,11 @@ export default function Sidebar() {
           {!collapsed && (
             <Link href="/" className="flex items-center gap-2" onClick={() => setMobileOpen(false)}>
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent-teal/20">
-                <span className="text-sm font-bold text-accent-teal">A</span>
+                <span className="text-sm font-bold text-accent-teal">C</span>
               </div>
               <div className="flex flex-col">
-                <span className="text-sm font-semibold text-text-primary">Anthropic</span>
-                <span className="text-[10px] text-text-muted">Support Academy</span>
+                <span className="text-sm font-semibold text-text-primary">CareerPath</span>
+                <span className="text-[10px] text-text-muted">Learning Platform</span>
               </div>
             </Link>
           )}
@@ -78,58 +88,109 @@ export default function Sidebar() {
             <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
             </svg>
-            {!collapsed && <span>Dashboard</span>}
+            {!collapsed && <span>Home</span>}
           </Link>
 
-          {/* Divider */}
           <div className="mx-4 my-3 border-t border-card-border" />
 
-          {/* Tracks */}
-          {!collapsed && (
-            <div className="mx-4 mb-2">
-              <span className="text-[10px] font-semibold uppercase tracking-widest text-text-muted">
-                Learning Tracks
-              </span>
-            </div>
-          )}
+          {/* Context-aware navigation */}
+          {role ? (
+            <>
+              {/* Back to company */}
+              {!collapsed && (
+                <Link
+                  href={`/company/${company!.id}`}
+                  onClick={() => setMobileOpen(false)}
+                  className="mx-2 mb-2 flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs text-text-muted hover:bg-[#1a1a1a] hover:text-text-secondary transition-all"
+                >
+                  <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                  </svg>
+                  {company!.name}
+                </Link>
+              )}
 
-          {curriculum.map((track) => {
-            const isActive = pathname.startsWith(`/track/${track.id}`);
-            return (
-              <Link
-                key={track.id}
-                href={`/track/${track.id}`}
-                onClick={() => setMobileOpen(false)}
-                className={`mx-2 mb-0.5 flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all ${
-                  isActive
-                    ? 'bg-white/5 text-text-primary'
-                    : 'text-text-muted hover:bg-[#1a1a1a] hover:text-text-secondary'
-                }`}
-              >
-                <span className="shrink-0 text-base">{collapsed ? track.icon : track.icon}</span>
-                {!collapsed && (
-                  <span className="truncate">{track.title}</span>
-                )}
-                {isActive && !collapsed && (
-                  <div
-                    className="ml-auto h-1.5 w-1.5 rounded-full"
-                    style={{ backgroundColor: track.color }}
-                  />
-                )}
-              </Link>
-            );
-          })}
+              {!collapsed && (
+                <div className="mx-4 mb-2">
+                  <span className="text-[10px] font-semibold uppercase tracking-widest text-text-muted">
+                    {role.icon} {role.title}
+                  </span>
+                </div>
+              )}
+
+              {role.trackRefs.map((ref) => {
+                const track = getTrack(ref.trackId);
+                if (!track) return null;
+                const trackPath = `/company/${company!.id}/role/${role.id}/track/${track.id}`;
+                const isActive = pathname.startsWith(trackPath);
+                return (
+                  <Link
+                    key={track.id}
+                    href={trackPath}
+                    onClick={() => setMobileOpen(false)}
+                    className={`mx-2 mb-0.5 flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all ${
+                      isActive
+                        ? 'bg-white/5 text-text-primary'
+                        : 'text-text-muted hover:bg-[#1a1a1a] hover:text-text-secondary'
+                    }`}
+                  >
+                    <span className="shrink-0 text-base">{track.icon}</span>
+                    {!collapsed && <span className="truncate">{track.title}</span>}
+                    {isActive && !collapsed && (
+                      <div className="ml-auto h-1.5 w-1.5 rounded-full" style={{ backgroundColor: track.color }} />
+                    )}
+                  </Link>
+                );
+              })}
+            </>
+          ) : (
+            <>
+              {/* Companies list */}
+              {!collapsed && (
+                <div className="mx-4 mb-2">
+                  <span className="text-[10px] font-semibold uppercase tracking-widest text-text-muted">
+                    Companies
+                  </span>
+                </div>
+              )}
+
+              {allCompanies.map((c) => {
+                const isActive = pathname.startsWith(`/company/${c.id}`);
+                return (
+                  <Link
+                    key={c.id}
+                    href={`/company/${c.id}`}
+                    onClick={() => setMobileOpen(false)}
+                    className={`mx-2 mb-0.5 flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all ${
+                      isActive
+                        ? 'bg-white/5 text-text-primary'
+                        : 'text-text-muted hover:bg-[#1a1a1a] hover:text-text-secondary'
+                    }`}
+                  >
+                    <span className="shrink-0 text-base">{c.logo}</span>
+                    {!collapsed && <span className="truncate">{c.name}</span>}
+                    {isActive && !collapsed && (
+                      <div className="ml-auto h-1.5 w-1.5 rounded-full" style={{ backgroundColor: c.color }} />
+                    )}
+                  </Link>
+                );
+              })}
+            </>
+          )}
         </nav>
 
         {/* Footer */}
         {!collapsed && (
           <div className="border-t border-card-border p-4">
             <div className="rounded-lg bg-[#1a1a1a] p-3">
-              <div className="mb-1 text-xs font-medium text-text-secondary">Overall Progress</div>
-              <div className="progress-bar mb-1">
-                <div className="progress-bar-fill bg-accent-teal" style={{ width: '12%' }} />
+              <div className="mb-1 text-xs font-medium text-text-secondary">
+                {role ? role.title : 'Career Platform'}
               </div>
-              <div className="text-[10px] text-text-muted">12% complete</div>
+              <div className="text-[10px] text-text-muted">
+                {role
+                  ? `${role.trackRefs.length} tracks · ${role.duration}`
+                  : `${allCompanies.length} companies · ${allCompanies.reduce((s, c) => s + c.roles.length, 0)} roles`}
+              </div>
             </div>
           </div>
         )}

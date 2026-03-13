@@ -83,7 +83,12 @@
 - `src/components/LessonNav.tsx` — Added `basePath` prop
 
 ### Step 6: New Components
-- **Status**: NOT STARTED
+- **Status**: DONE
+- **Date**: 2026-03-13
+- Created `CompanyCard.tsx`, `RoleCard.tsx`, `SearchFilter.tsx`
+- Rewrote `Sidebar.tsx` — context-aware: shows companies at root, tracks within a role
+- Updated `layout.tsx` metadata for multi-company platform
+- TypeScript compiles clean
 
 ### Step 7: New Landing Page
 - **Status**: NOT STARTED
